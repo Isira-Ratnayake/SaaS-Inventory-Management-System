@@ -1,0 +1,282 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f4f5f7;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: #fff;
+  color: black !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.219);
+}
+
+.navbar {
+  background-color: #fff !important;
+
+  border: none !important;
+}
+
+.sidebar {
+  width: 20rem;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.219);
+  position: fixed;
+  top: 50px; /* Adjust based on header height */
+  left: 0;
+
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar h2::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.sidebar ul {
+  margin-top: 2.5rem;
+  list-style-type: none;
+  padding: 0;
+  height: 100vh;
+}
+
+.sidebar ul li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+}
+
+.sidebar ul li.active {
+  background-color: #d4d4d4;
+}
+
+.sidebar ul li:hover {
+  background-color: #c1c1c1;
+}
+
+.sidebar ul li a {
+  color: black !important;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  min-height: 100vh;
+  padding-top: 80px; /* Adjust based on header height */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  padding-left: 0 !important;
+}
+
+.header input {
+  padding: 10px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.dashboard {
+  margin-top: 20px;
+}
+
+.table-wrapper {
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.table-container {
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 15px;
+  text-align: left;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #fff;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.edit {
+  color: blue;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-info span {
+  font-weight: bold;
+}
+
+.container {
+  max-width: 90vw;
+}
+
+.action-icons {
+  display: flex;
+  gap: 20%;
+}
+
+.action-btn {
+  border: none;
+  background: transparent;
+}
+
+.action-btn:hover {
+  color: #494949;
+}
+
+.delete-btn-modal {
+  color: #fff;
+  background-color: rgb(200, 1, 1);
+}
+
+.delete-btn-modal:hover {
+  color: #fff;
+  background-color: rgb(255, 0, 0);
+}
+
+.edit-btn-theme {
+  color: #fff;
+  background-color: rgb(0, 0, 0);
+}
+
+.edit-btn-theme:hover {
+  color: #fff;
+  background-color: rgb(77, 77, 77);
+}
+
+footer {
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.219);
+
+  background-color: #fff;
+}
+
+.footer-container {
+  align-items: center;
+  align-content: center;
+  margin-left: 250px;
+  padding: 1rem !important;
+}
+
+footer p {
+  color: black !important;
+  text-align: center;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.add-btn {
+  margin-bottom: 1rem;
+}
+
+.search-by-col-1,
+.search-by-col-2 {
+  padding: 0 !important;
+}
+
+.sort-btn {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.sort-btn:hover {
+  color: #696969;
+}
+
+.sidebar ul li {
+  padding: 1.2rem;
+  position: relative;
+}
+
+.pagination-row {
+  margin-top: 1.5rem;
+}
+
+.pagination-row .pagination-text {
+  font-weight: 700;
+  color: #7c7c7c;
+}
+
+.page-link {
+  background-color: #000;
+  color: white;
+}
+
+.page-item button:disabled {
+  background-color: #747474;
+  color: white;
+  pointer-events: none;
+}
+
+.page-item button:hover {
+  background-color: #383838;
+  color: white;
+}
+
+.page-item {
+  padding: 0 5px;
+}
+
+.nav-end {
+  position: absolute !important;
+  width: 87%;
+  bottom: 75px;
+}
