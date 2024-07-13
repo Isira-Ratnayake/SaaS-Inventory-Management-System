@@ -35,6 +35,11 @@ export default function SideNavigation({ index }) {
               <i className="fa-solid fa-user"></i>&nbsp;Items
             </Link>
           </li>
+          <li className={index === "7" ? "active" : ""}>
+            <Link to="/purchase-orders" className="stretched-link">
+              <i className="fa-solid fa-user"></i>&nbsp;Purchase Orders
+            </Link>
+          </li>
           <li className="nav-end">
             <a href="#">
               <i className="fa-solid fa-user"></i>&nbsp;Logout

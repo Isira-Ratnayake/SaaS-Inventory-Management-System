@@ -280,3 +280,12 @@ footer p {
   width: 87%;
   bottom: 75px;
 }
+
+.hide-text {
+  display: hidden;
+}
+
+.warning-msg {
+  color: red;
+  font-weight: bold;
+}

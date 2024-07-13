@@ -1,11 +1,11 @@
-package com.lahiruautointernational.ims.purchaseorders;
+package com.lahiruautointernational.ims.purchaseorders.model;
 
 public class Item {
     private int itemId;
     private String itemName;
-    private String supplierId;
+    private int supplierId;
 
-    public Item(int itemId, String itemName, String supplierId) {
+    public Item(int itemId, String itemName, int supplierId) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.supplierId = supplierId;
@@ -27,11 +27,11 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public String getSupplierId() {
+    public int getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(String supplierId) {
+    public void setSupplierId(int supplierId) {
         this.supplierId = supplierId;
     }
 }

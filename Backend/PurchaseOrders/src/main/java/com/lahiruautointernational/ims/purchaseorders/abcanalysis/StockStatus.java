@@ -1,2 +1,7 @@
-package com.lahiruautointernational.ims.purchaseorders.abcanalysis;public class StockStatus {
+package com.lahiruautointernational.ims.purchaseorders.abcanalysis;
+
+public enum StockStatus {
+    OVER_STOCK,
+    NORMAL,
+    UNDER_STOCK
 }
