@@ -1,0 +1,1 @@
+globalThis.api_uri = "http://localhost:8080";

@@ -5,11 +5,11 @@ export default function SideNavigation({ index }) {
     <>
       <div className="sidebar">
         <ul>
-          <li className={index === "1" ? "active" : ""}>
+          {/* <li className={index === "1" ? "active" : ""}>
             <Link to="/" className="stretched-link">
               <i className="fa-solid fa-user"></i>&nbsp;Overview
             </Link>
-          </li>
+          </li> */}
           <li className={index === "2" ? "active" : ""}>
             <Link to="/invoices" className="stretched-link">
               <i className="fa-solid fa-user"></i>&nbsp;Invoices
@@ -35,10 +35,15 @@ export default function SideNavigation({ index }) {
               <i className="fa-solid fa-user"></i>&nbsp;Items
             </Link>
           </li>
-          <li className="nav-end">
-            <a href="#">
+          <li className={index === "7" ? "active" : ""}>
+            <Link to="/purchase-orders" className="stretched-link">
+              <i className="fa-solid fa-user"></i>&nbsp;Purchase Orders
+            </Link>
+          </li>
+          <li>
+            <Link to="/" className="stretched-link">
               <i className="fa-solid fa-user"></i>&nbsp;Logout
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
