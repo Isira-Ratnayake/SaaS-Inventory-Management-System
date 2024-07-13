@@ -11,6 +11,9 @@ public class OpItemDto {
         this.orderQuantity = orderQuantity;
     }
 
+    public OpItemDto() {
+    }
+
     public int getItemId() {
         return itemId;
     }

@@ -1,15 +1,14 @@
 package com.lahiruautointernational.ims.purchaseorders.api;
 
-import com.lahiruautointernational.ims.purchaseorders.dto.ItemDetailsDto;
-import com.lahiruautointernational.ims.purchaseorders.dto.OpItemDto;
-import com.lahiruautointernational.ims.purchaseorders.dto.SearchPosDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lahiruautointernational.ims.purchaseorders.dto.*;
 import com.lahiruautointernational.ims.purchaseorders.model.Supplier;
 import com.lahiruautointernational.ims.purchaseorders.service.PosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,6 +55,22 @@ public class PurchaseOrdersController {
             @RequestParam("itemId") String itemId
     ) {
         return posService.getItemDetails(Integer.parseInt(itemId));
+    }
+
+    @PostMapping("insert-po")
+    public ResponseEntity<FormSubmitResponse> insertPon(
+            @RequestParam("supplierId") String supplierId,
+            @RequestParam("items") String items
+    ) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            List<OpItemDto> opItemDtos = mapper.readValue(items, new TypeReference<>(){});
+            return new ResponseEntity<>(posService.addPon(Integer.parseInt(supplierId), opItemDtos), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
     }
 
 }

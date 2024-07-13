@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchFilterDropDown from "../components/SearchFilterDropdown";
 import SideNavigation from "../components/SideNavigation";
 import {
+  addPon,
+  cancelPo,
+  confirmPo,
   getItemDetails,
   getPoProposedItems,
   getSupplierItems,
   searchPos,
 } from "../api/poApi";
-import { useLoaderData } from "react-router-dom";
+import { Form, useActionData, useLoaderData } from "react-router-dom";
+import ServerMessageToast from "../components/ServerMessageToast";
 
 export async function loader({ request }) {
   const url = new URL(request.url);
@@ -31,11 +35,61 @@ export async function loader({ request }) {
   const poData = { ...poDataAPI };
   return poData;
 }
-export function action() {
+export async function action({ request }) {
+  const formData = await request.formData();
+  const formType = formData.get("formType");
+  if (formType === "addpo") {
+    const supplierId = formData.get("supplierId");
+    const items = JSON.parse(formData.get("items"));
+    let itemArr = [];
+    items.map((item) => {
+      itemArr.push({
+        itemId: item.itemId,
+        orderQuantity: item.orderQuantity,
+      });
+    });
+    let response = await addPon(supplierId, JSON.stringify(itemArr));
+
+    if (response !== null) {
+      response = {
+        ...response,
+        formType: formType,
+      };
+      return response;
+    }
+    return null;
+  }
+  if (formType === "cancelpo") {
+    const poNumber = formData.get("poNumber");
+    let response = await cancelPo(poNumber);
+
+    if (response !== null) {
+      response = {
+        ...response,
+        formType: formType,
+      };
+      return response;
+    }
+    return null;
+  }
+  if (formType === "confirmpo") {
+    const poNumber = formData.get("poNumber");
+    let response = await confirmPo(poNumber);
+
+    if (response !== null) {
+      response = {
+        ...response,
+        formType: formType,
+      };
+      return response;
+    }
+    return null;
+  }
+
   return null;
 }
 export default function PurchaseOrders() {
-  const { supplier } = useLoaderData();
+  const { supplier, poDtos } = useLoaderData();
   const [supplierList, setSupplierList] = useState([]);
   const [itemList, setItemList] = useState([]);
   const [modal, setModal] = useState({
@@ -44,8 +98,8 @@ export default function PurchaseOrders() {
     supplierId: "",
     items: [],
     status: "",
-    batchNo: "",
-    createdBy: "",
+    canceled: false,
+    fullfilled: false,
   });
   const [itemModal, setItemModal] = useState({
     index: -1,
@@ -59,10 +113,45 @@ export default function PurchaseOrders() {
     quantityOnOrder: 0.0,
     caller: "",
   });
-
-  function roundToTwoDecimals(number) {
-    return (Math.floor(number * 100) / 100).toFixed(2);
-  }
+  const response = useActionData();
+  const [toasts, setToasts] = useState([]);
+  useEffect(() => {
+    if (
+      response !== undefined &&
+      response !== null &&
+      response.message !== undefined
+    ) {
+      if (response.formType === "addpo" && response.message.success) {
+        document.getElementById("addModalClose").click();
+        setTimeout(function () {
+          clearModalData();
+        }, 500);
+      }
+      if (response.formType === "cancelpo" && response.message.success) {
+        document.getElementById("cancelModalClose").click();
+        setTimeout(function () {
+          clearModalData();
+        }, 500);
+      }
+      if (response.formType === "confirmpo" && response.message.success) {
+        document.getElementById("confirmModalClose").click();
+        setTimeout(function () {
+          clearModalData();
+        }, 500);
+      }
+    }
+    setToasts((prevToasts) => {
+      const newTosts = prevToasts.map((x) => x);
+      newTosts.unshift(
+        <ServerMessageToast
+          key={prevToasts.length + 1}
+          message={response?.message}
+          id={prevToasts.length + 1}
+        />
+      );
+      return newTosts;
+    });
+  }, [response]);
 
   function clearModalData() {
     setModal(() => {
@@ -72,8 +161,8 @@ export default function PurchaseOrders() {
         supplierId: "",
         items: [],
         status: "",
-        batchNo: "",
-        createdBy: "",
+        canceled: false,
+        fullfilled: false,
       };
     });
 
@@ -95,8 +184,14 @@ export default function PurchaseOrders() {
 
   async function loadSupplierItems(supplierId) {
     const itemArr = await getSupplierItems(supplierId);
+    const itemsArray = itemArr.filter((item) => {
+      return (
+        modal.items.filter((modalItem) => modalItem.itemId === item.id)
+          .length === 0
+      );
+    });
     setItemList(() => {
-      return itemArr;
+      return itemsArray;
     });
   }
 
@@ -109,20 +204,43 @@ export default function PurchaseOrders() {
         <td>
           <div className="action-icons">
             <button
-              type="submit"
+              type="button"
               className="action-btn"
               title="Edit"
               data-bs-toggle="modal"
-              data-bs-target="#editUserModal"
+              data-bs-target="#edittopo"
+              onClick={() => {
+                setItemModal((prev) => {
+                  return {
+                    ...prev,
+                    caller: "addUserModal",
+                  };
+                });
+                setItemList(() => {
+                  return [];
+                });
+                loadItemModalData(item.itemId);
+              }}
             >
               <i className="fa-sharp fa-solid fa-pen"></i>
             </button>
             <button
-              type="submit"
+              type="button"
               className="action-btn delete-btn"
               title="Delete"
-              data-bs-toggle="modal"
-              data-bs-target="#deleteUserModal"
+              onClick={() => {
+                const items = modal.items.map((x) => x);
+                const index = items.indexOf(item);
+                if (index > -1) {
+                  items.splice(index, 1);
+                  setModal((prevModal) => {
+                    return {
+                      ...prevModal,
+                      items: items,
+                    };
+                  });
+                }
+              }}
             >
               <i className="fa-sharp fa-solid fa-trash"></i>
             </button>
@@ -131,6 +249,88 @@ export default function PurchaseOrders() {
       </tr>
     );
   });
+
+  const inactiveItemGrid = modal.items.map((item) => {
+    return (
+      <tr key={`${modal.posNumber}-${item.itemId}`}>
+        <td>{item.itemId}</td>
+        <td>{item.itemName}</td>
+        <td>{item.orderQuantity}</td>
+      </tr>
+    );
+  });
+
+  const itemGrid = poDtos.map((po) => {
+    return (
+      <tr key={po.poNumber}>
+        <td>{po.poNumber}</td>
+        <td>{po.poDate}</td>
+        <td>
+          {supplier.filter((s) => s.id === po.supplierId)[0]?.description}
+        </td>
+        <td>
+          {!po.cancelled && po.fullfilled ? (
+            <span className="badge rounded-pill text-success-emphasis bg-success-subtle fs-custom">
+              &nbsp;&nbsp; RECEIVED &nbsp;&nbsp;
+            </span>
+          ) : !po.cancelled && !po.fullfilled ? (
+            <span className="badge rounded-pill text-secondary-emphasis bg-secondary-subtle fs-custom">
+              &nbsp;&nbsp; PENDING &nbsp;&nbsp;
+            </span>
+          ) : (
+            <span className="badge rounded-pill text-danger-emphasis bg-danger-subtle fs-custom">
+              &nbsp;&nbsp; CANCELED &nbsp;&nbsp;
+            </span>
+          )}
+        </td>
+        <td>
+          <div className="action-icons">
+            <button
+              type="button"
+              className="action-btn"
+              title="View"
+              data-bs-toggle="modal"
+              data-bs-target="#viewUserModal"
+              onClick={() => {
+                loadModalData(po.poNumber);
+              }}
+            >
+              <i className="fa-sharp fa-solid fa-eye"></i>
+            </button>
+            <button
+              type="button"
+              className="action-btn"
+              title="Confirm"
+              data-bs-toggle="modal"
+              data-bs-target="#editUserModal"
+              disabled={po.canceled || po.fullfilled}
+              onClick={() => {
+                loadModalData(po.poNumber);
+              }}
+            >
+              <i className="fa-sharp fa-solid fa-circle-check"></i>
+            </button>
+            <button
+              type="button"
+              className="action-btn delete-btn"
+              title="Delete"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteUserModal"
+              disabled={po.canceled || po.fullfilled}
+              onClick={() => {
+                loadModalData(po.poNumber);
+              }}
+            >
+              <i className="fa-sharp fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  });
+  // function roundToTwoDecimals(number) {
+  //   return (Math.floor(number * 100) / 100).toFixed(2);
+  // }
 
   async function loadItemModalData(itemId) {
     const itemDetails = await getItemDetails(itemId);
@@ -162,6 +362,21 @@ export default function PurchaseOrders() {
         safetyStock: 0.0,
         quantityOnOrder: 0.0,
         caller: "",
+      };
+    });
+  }
+
+  function loadModalData(poNumber) {
+    const po = poDtos.filter((po) => po.poNumber === poNumber)[0];
+    setModal((prev) => {
+      return {
+        ...prev,
+        posNumber: po.poNumber,
+        posDate: po.poDate,
+        supplierId: po.supplierId,
+        items: po.items,
+        canceled: po.canceled,
+        fullfilled: po.fullfilled,
       };
     });
   }
@@ -297,45 +512,7 @@ export default function PurchaseOrders() {
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
-                    <td>ADMINISTRATOR</td>
-                    <td>PENDING</td>
-                    <td>
-                      <div className="action-icons">
-                        <button
-                          type="submit"
-                          className="action-btn"
-                          title="View"
-                          data-bs-toggle="modal"
-                          data-bs-target="#viewUserModal"
-                        >
-                          <i className="fa-sharp fa-solid fa-eye"></i>
-                        </button>
-                        <button
-                          type="submit"
-                          className="action-btn"
-                          title="Confirm"
-                          data-bs-toggle="modal"
-                          data-bs-target="#editUserModal"
-                        >
-                          <i className="fa-sharp fa-solid fa-pen"></i>
-                        </button>
-                        <button
-                          type="submit"
-                          className="action-btn delete-btn"
-                          title="Delete"
-                          data-bs-toggle="modal"
-                          data-bs-target="#deleteUserModal"
-                        >
-                          <i className="fa-sharp fa-solid fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody>{itemGrid}</tbody>
               </table>
             </div>
           </div>
@@ -409,47 +586,90 @@ export default function PurchaseOrders() {
             <div className="modal-body">
               <table className="table table-hover">
                 <tbody className="modal-table-body">
+                  <h4>PO Details</h4>
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">User ID</div>
+                        <div className="col table-heading-title">PO Number</div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">UID-001</td>
+                    <td className="text-truncate align-middle">
+                      {modal.posNumber}
+                    </td>
                   </tr>
 
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Full Name</div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
+                        <div className="col table-heading-title">PO Date</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">
-                      email@email.com
+                      {modal.posDate}
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">
-                          User Group
-                        </div>
+                        <div className="col table-heading-title">Supplier</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">
-                      ADMINISTRATOR
+                      {
+                        supplier.filter((s) => s.id === modal.supplierId)[0]
+                          ?.description
+                      }
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Status</div>
+                      </div>
+                    </th>
+                    <td>
+                      {!modal.canceled && modal.fullfilled
+                        ? "RECEIVED"
+                        : !modal.canceled && !modal.fullfilled
+                        ? "PENDING"
+                        : "CANCELED"}
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div className="table-wrapper mt-0 mb-5">
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <h4>Items</h4>
+                      <tr>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;ID
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;Description
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Order Quantity
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>{inactiveItemGrid}</tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -468,69 +688,118 @@ export default function PurchaseOrders() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Delete</h4>
+                <h4 className="page-header">
+                  Purchase Order Management | Cancel
+                </h4>
               </div>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="cancelModalClose"
               ></button>
             </div>
             <div className="modal-body">
               <table className="table table-hover">
                 <tbody className="modal-table-body">
+                  <h4>PO Details</h4>
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">User ID</div>
+                        <div className="col table-heading-title">PO Number</div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">UID-001</td>
+                    <td className="text-truncate align-middle">
+                      {modal.posNumber}
+                    </td>
                   </tr>
 
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Full Name</div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
+                        <div className="col table-heading-title">PO Date</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">
-                      email@email.com
+                      {modal.posDate}
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">
-                          User Group
-                        </div>
+                        <div className="col table-heading-title">Supplier</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">
-                      ADMINISTRATOR
+                      {
+                        supplier.filter((s) => s.id === modal.supplierId)[0]
+                          ?.description
+                      }
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Status</div>
+                      </div>
+                    </th>
+                    <td>
+                      {!modal.canceled && modal.fullfilled
+                        ? "RECEIVED"
+                        : !modal.canceled && !modal.fullfilled
+                        ? "PENDING"
+                        : "CANCELED"}
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div className="table-wrapper mt-0 mb-5">
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <h4>Items</h4>
+                      <tr>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;ID
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;Description
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Order Quantity
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>{inactiveItemGrid}</tbody>
+                  </table>
+                </div>
+              </div>
             </div>
             <div className="modal-footer">
+              <Form id="cancelpo" method="post">
+                <input type="hidden" name="formType" value="cancelpo" />
+                <input type="hidden" name="poNumber" value={modal.posNumber} />
+              </Form>
               <button
-                type="button"
+                type="submit"
+                form="cancelpo"
                 className="btn delete-btn-modal btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#updatePrivilegesModal"
               >
                 &nbsp;<i className="fa-sharp fa-solid fa-trash"></i>
-                &nbsp;&nbsp;Delete&nbsp;User&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;Cancel&nbsp;Purchase&nbsp;Order&nbsp;&nbsp;
               </button>
             </div>
           </div>
@@ -553,45 +822,57 @@ export default function PurchaseOrders() {
                 <h4 className="page-header">
                   Purchase Order Management Management | Add
                 </h4>
-                <div className="mt-4 callback-text">
-                  <span className="fw-bold">Pending PO Number: </span>
-                  {/* {modal.static.grnId === ""
-                    ? "loading..."
-                    : modal.static.grnId} */}
-                  123
-                </div>
               </div>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="addModalClose"
               ></button>
             </div>
             <div className="modal-body">
-              <form id="addUserGroupForm" action="#" method="POST">
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Supplier
-                  </label>
-                  <SearchFilterDropDown
-                    dataList={supplierList}
-                    value={modal.supplierId}
-                    handleChange={(sId) => {
-                      setModal((prev) => {
-                        return {
-                          ...prev,
-                          supplierId: sId,
-                        };
-                      });
-                      loadPoProposal(sId);
-                    }}
-                  />
-                </div>
-              </form>
+              <Form id="addpo" method="POST">
+                <input
+                  type="hidden"
+                  name="supplierId"
+                  value={modal.supplierId}
+                  readOnly={true}
+                />
+                <input
+                  type="hidden"
+                  name="items"
+                  value={JSON.stringify(modal.items)}
+                  readOnly={true}
+                />
+                <input
+                  type="hidden"
+                  name="formType"
+                  value="addpo"
+                  readOnly={true}
+                />
+              </Form>
+              <div className="mb-3">
+                <label
+                  htmlFor="userGroupDescription"
+                  className="form-label fw-bold"
+                >
+                  Supplier
+                </label>
+                <SearchFilterDropDown
+                  dataList={supplierList}
+                  value={modal.supplierId}
+                  handleChange={(sId) => {
+                    setModal((prev) => {
+                      return {
+                        ...prev,
+                        supplierId: sId,
+                      };
+                    });
+                    loadPoProposal(sId);
+                  }}
+                />
+              </div>
               <div className="row mt-5">
                 <div className="">
                   <label
@@ -607,7 +888,9 @@ export default function PurchaseOrders() {
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#addtopo"
-                    disabled={navigation.state === "submitting"}
+                    disabled={
+                      modal.supplierId === null || modal.supplierId === ""
+                    }
                     onClick={() => {
                       setItemModal((prevItemModal) => {
                         return {
@@ -674,8 +957,13 @@ export default function PurchaseOrders() {
               <div className="col text-end add-btn pe-2">
                 <button
                   type="submit"
+                  form="addpo"
                   className="btn edit-btn-theme btn-sm"
-                  form="addUserGroupForm"
+                  disabled={
+                    modal.supplierId === "" ||
+                    modal.supplierId === null ||
+                    modal.items.length <= 0
+                  }
                 >
                   &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
                   &nbsp;&nbsp;Add&nbsp;New&nbsp;Purchase&nbsp;Order&nbsp;&nbsp;&nbsp;
@@ -699,72 +987,124 @@ export default function PurchaseOrders() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Edit</h4>
+                <h4 className="page-header">
+                  Purchase Order Management | Cofirmation
+                </h4>
               </div>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                id="confirmModalClose"
               ></button>
             </div>
             <div className="modal-body">
-              <form id="addUserGroupForm" action="#" method="POST">
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                    value="Lorem Ipsum"
-                  />
+              <table className="table table-hover">
+                <tbody className="modal-table-body">
+                  <h4>PO Details</h4>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">PO Number</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">
+                      {modal.posNumber}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">PO Date</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">
+                      {modal.posDate}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Supplier</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">
+                      {
+                        supplier.filter((s) => s.id === modal.supplierId)[0]
+                          ?.description
+                      }
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Status</div>
+                      </div>
+                    </th>
+                    <td>
+                      {!modal.canceled && modal.fullfilled
+                        ? "RECEIVED"
+                        : !modal.canceled && !modal.fullfilled
+                        ? "PENDING"
+                        : "CANCELED"}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="table-wrapper mt-0 mb-5">
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <h4>Items</h4>
+                      <tr>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;ID
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;Description
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Order Quantity
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>{inactiveItemGrid}</tbody>
+                  </table>
                 </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                    value="email@email.com"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    User Group
-                  </label>
-                  <select className="form-select form-select-mod">
-                    <option disabled value=""></option>
-                    <option value="1" selected>
-                      ADMINISTRATOR
-                    </option>
-                    <option value="2">MANAGER</option>
-                    <option value="3">SALES REP</option>
-                  </select>
-                </div>
-              </form>
+              </div>
             </div>
             <div className="modal-footer">
               <div className="col text-end add-btn pe-2">
+                <Form id="confirmpo" method="post">
+                  <input type="hidden" name="formType" value="confirmpo" />
+                  <input
+                    type="hidden"
+                    name="poNumber"
+                    value={modal.posNumber}
+                  />
+                </Form>
                 <button
+                  id="confirmpo"
                   type="submit"
                   className="btn edit-btn-theme btn-sm"
                   form="addUserGroupForm"
                 >
-                  &nbsp;<i className="fa-sharp fa-solid fa-pen"></i>
-                  &nbsp;&nbsp;Edit&nbsp;User&nbsp;&nbsp;&nbsp;
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-check"></i>
+                  &nbsp;&nbsp;Confirm&nbsp;Purchase&nbsp;Order&nbsp;&nbsp;&nbsp;
                 </button>
               </div>
             </div>
@@ -930,8 +1270,9 @@ export default function PurchaseOrders() {
                 {/* {
                   <div
                     id={`warning-msg ${
-                      itemModal.stockOnHand + itemModal.orderQuantity >
-                      itemModal.maxQuantity
+                      Number(itemModal.stockOnHand) +
+                        Number(itemModal.orderQuantity) >
+                      Number(itemModal.maxQuantity)
                         ? ""
                         : "hide-text"
                     }`}
@@ -943,8 +1284,9 @@ export default function PurchaseOrders() {
                 {
                   <div
                     id={`warning-msg ${
-                      itemModal.stockOnHand + itemModal.orderQuantity <
-                      itemModal.safetyStock
+                      Number(itemModal.stockOnHand) +
+                        Number(itemModal.orderQuantity) <
+                      Number(itemModal.safetyStock)
                         ? ""
                         : "hide-text"
                     }`}
@@ -990,7 +1332,7 @@ export default function PurchaseOrders() {
       {/* edit po item */}
       <div
         className="modal modal-adjuster fade"
-        id="addtopo"
+        id="edittopo"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex="-1"
@@ -1023,6 +1365,7 @@ export default function PurchaseOrders() {
                 <SearchFilterDropDown
                   dataList={itemList}
                   value={itemModal.itemId}
+                  disabled={true}
                   handleChange={(itemId) => {
                     setItemModal((prev) => {
                       return {
@@ -1202,6 +1545,7 @@ export default function PurchaseOrders() {
           </div>
         </div>
       </div>
+      <div className="toast-container toast-positioner">{toasts}</div>
     </>
   );
 }

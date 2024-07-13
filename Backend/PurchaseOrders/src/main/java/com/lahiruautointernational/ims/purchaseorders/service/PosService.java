@@ -1,9 +1,7 @@
 package com.lahiruautointernational.ims.purchaseorders.service;
 
 import com.lahiruautointernational.ims.purchaseorders.abcanalysis.AbcAnalyzer;
-import com.lahiruautointernational.ims.purchaseorders.dto.ItemDetailsDto;
-import com.lahiruautointernational.ims.purchaseorders.dto.OpItemDto;
-import com.lahiruautointernational.ims.purchaseorders.dto.SearchPosDto;
+import com.lahiruautointernational.ims.purchaseorders.dto.*;
 import com.lahiruautointernational.ims.purchaseorders.model.Item;
 import com.lahiruautointernational.ims.purchaseorders.model.Supplier;
 import com.lahiruautointernational.ims.purchaseorders.repository.InventoryRepository;
@@ -27,7 +25,8 @@ public class PosService {
 
     public SearchPosDto searchPos() {
         return new SearchPosDto(
-                inventoryRepository.getSuppliers()
+                inventoryRepository.getSuppliers(),
+                inventoryRepository.getPos()
         );
     }
 
@@ -74,4 +73,16 @@ public class PosService {
                 abcAnalyzer.getQuantityOnOrder().toPlainString()
         );
     }
+
+    public FormSubmitResponse addPon(int supplierId, List<OpItemDto> items) {
+        inventoryRepository.insertPon(supplierId, items);
+        return new FormSubmitResponse(
+                new Message(
+                        true,
+                        "PO successfully inserted."
+                ),
+                null
+        );
+    }
+
 }

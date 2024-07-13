@@ -1,4 +1,4 @@
-package lk.dressmaster.dressmasterisccrms.administration.dto;
+package com.lahiruautointernational.ims.purchaseorders.dto;
 
 public class Error {
     private String name;
