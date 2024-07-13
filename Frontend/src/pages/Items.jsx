@@ -53,6 +53,24 @@ export default function Items() {
             <div className="col col-3">
               <div className="row align-items-center">
                 <div className="col search-by-col-1 text-end">
+                  <label className="fw-bold">Search by models: </label>
+                </div>
+                <div className="col search-by-col-2">
+                  <select
+                    form="search-form"
+                    name=""
+                    className="form-select form-select-sm form-select-mod"
+                  >
+                    <option value="1">model 01</option>
+                    <option value="3">model 02</option>
+                    <option value="4">model 03</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col col-3">
+              <div className="row align-items-center">
+                <div className="col search-by-col-1 text-end">
                   <label className="fw-bold">Search by: </label>
                 </div>
                 <div className="col search-by-col-2">
@@ -422,7 +440,7 @@ export default function Items() {
                         </div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
+                    <td className="text-truncate align-middle">Description</td>
                   </tr>
                   <tr>
                     <th scope="row">
@@ -481,7 +499,7 @@ export default function Items() {
                         </div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
+                    <td className="text-truncate align-middle">Description</td>
                   </tr>
                   <tr>
                     <th scope="row">
