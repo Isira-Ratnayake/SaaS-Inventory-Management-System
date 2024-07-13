@@ -30,6 +30,10 @@ import Items, {
   loader as ItemsLoader,
   action as ItemsAction,
 } from "./pages/Items";
+import PurchaseOrders, {
+  loader as POLoader,
+  action as POAction,
+} from "./pages/PurchaseOrders";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -70,6 +74,12 @@ const router = createBrowserRouter(
           element={<Items />}
           loader={ItemsLoader}
           action={ItemsAction}
+        />
+        <Route
+          path="purchase-orders"
+          element={<PurchaseOrders />}
+          loader={POLoader}
+          action={POAction}
         />
       </Route>
     </Route>
