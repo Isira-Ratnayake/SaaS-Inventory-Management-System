@@ -25,10 +25,29 @@ export default function Invoices() {
               data-bs-target="#addUserModal"
             >
               &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
-              &nbsp;&nbsp;Add&nbsp;New&nbsp;User&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;Add&nbsp;Invoice&nbsp;&nbsp;
             </button>
           </div>
           <div className="row justify-content-end mb-3">
+            <div className="col ms-3">
+              <div className="row">
+                <div className="col col-3">
+                  <div className="row align-items-center">
+                    <div className="col search-by-col-2">
+                      <select
+                        form="search-form"
+                        name=""
+                        className="form-select form-select-sm form-select-mod"
+                      >
+                        <option value="1">All</option>
+                        <option value="3">GRN Date</option>
+                        <option value="4">Status</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="col col-3">
               <div className="row align-items-center">
                 <div className="col search-by-col-1 text-end">
@@ -40,9 +59,9 @@ export default function Invoices() {
                     name=""
                     className="form-select form-select-sm form-select-mod"
                   >
-                    <option value="1">User ID</option>
-                    <option value="3">Full Name</option>
-                    <option value="4">User Group</option>
+                    <option value="1">Invoice Number</option>
+                    <option value="3">Invoice Date</option>
+                    <option value="4">Customer</option>
                   </select>
                 </div>
               </div>
@@ -78,7 +97,7 @@ export default function Invoices() {
                     <th>
                       <div className="row table-heading align-items-center">
                         <div className="col table-heading-title">
-                          User&nbsp;ID
+                          Invoice&nbsp;Number
                         </div>
                         <div className="col sort-caret">
                           <button
@@ -96,7 +115,7 @@ export default function Invoices() {
                     <th>
                       <div className="row table-heading align-items-center">
                         <div className="col table-heading-title">
-                          Full&nbsp;Name
+                          Invoice&nbsp;Date
                         </div>
                         <div className="col sort-caret">
                           <button
@@ -113,7 +132,7 @@ export default function Invoices() {
                     </th>
                     <th>
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
+                        <div className="col table-heading-title">Customer</div>
                         <div className="col sort-caret">
                           <button
                             type="submit"
@@ -129,9 +148,7 @@ export default function Invoices() {
                     </th>
                     <th>
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">
-                          User&nbsp;Group
-                        </div>
+                        <div className="col table-heading-title">Status</div>
                         <div className="col sort-caret">
                           <button
                             type="submit"
@@ -150,10 +167,10 @@ export default function Invoices() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
-                    <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
+                    <td>1</td>
+                    <td>12-03-2023</td>
+                    <td>ABCD</td>
+                    <td>Complete</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -187,10 +204,10 @@ export default function Invoices() {
                     </td>
                   </tr>
                   <tr>
-                    <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
-                    <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
+                    <td>1</td>
+                    <td>12-03-2023</td>
+                    <td>ABCD</td>
+                    <td>Complete</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -224,10 +241,10 @@ export default function Invoices() {
                     </td>
                   </tr>
                   <tr>
-                    <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
-                    <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
+                    <td>1</td>
+                    <td>12-03-2023</td>
+                    <td>ABCD</td>
+                    <td>Complete</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -261,10 +278,10 @@ export default function Invoices() {
                     </td>
                   </tr>
                   <tr>
-                    <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
-                    <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
+                    <td>1</td>
+                    <td>12-03-2023</td>
+                    <td>ABCD</td>
+                    <td>Complete</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -298,10 +315,10 @@ export default function Invoices() {
                     </td>
                   </tr>
                   <tr>
-                    <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
-                    <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
+                    <td>1</td>
+                    <td>12-03-2023</td>
+                    <td>ABCD</td>
+                    <td>Complete</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -394,7 +411,7 @@ export default function Invoices() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | View</h4>
+                <h4 className="page-header fs-5">Invoices Management | View</h4>
               </div>
               <button
                 type="button"
@@ -409,41 +426,38 @@ export default function Invoices() {
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">User ID</div>
+                        <div className="col table-heading-title">
+                          Invoice Number
+                        </div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">UID-001</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Full Name</div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">
-                      email@email.com
-                    </td>
+                    <td className="text-truncate align-middle">1</td>
                   </tr>
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
                         <div className="col table-heading-title">
-                          User Group
+                          Invoice Date
                         </div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">
-                      ADMINISTRATOR
-                    </td>
+                    <td className="text-truncate align-middle">12-03-2023</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Customer</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">ABCD</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Status</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">Complete</td>
                   </tr>
                 </tbody>
               </table>
@@ -465,7 +479,9 @@ export default function Invoices() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Delete</h4>
+                <h4 className="page-header fs-5">
+                  Invoices Management | Delete
+                </h4>
               </div>
               <button
                 type="button"
@@ -480,41 +496,38 @@ export default function Invoices() {
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">User ID</div>
+                        <div className="col table-heading-title">
+                          Invoice Number
+                        </div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">UID-001</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Full Name</div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">
-                      email@email.com
-                    </td>
+                    <td className="text-truncate align-middle">1</td>
                   </tr>
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
                         <div className="col table-heading-title">
-                          User Group
+                          Invoice Date
                         </div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">
-                      ADMINISTRATOR
-                    </td>
+                    <td className="text-truncate align-middle">12-03-2023</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Customer</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">ABCD</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div className="row table-heading align-items-center">
+                        <div className="col table-heading-title">Status</div>
+                      </div>
+                    </th>
+                    <td className="text-truncate align-middle">Complete</td>
                   </tr>
                 </tbody>
               </table>
@@ -527,7 +540,7 @@ export default function Invoices() {
                 data-bs-target="#updatePrivilegesModal"
               >
                 &nbsp;<i className="fa-sharp fa-solid fa-trash"></i>
-                &nbsp;&nbsp;Delete&nbsp;User&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;Delete&nbsp;Record&nbsp;&nbsp;&nbsp;
               </button>
             </div>
           </div>
@@ -543,11 +556,11 @@ export default function Invoices() {
         tabIndex="-1"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Add</h4>
+                <h4 className="page-header">Add Invoice</h4>
               </div>
               <button
                 type="button"
@@ -557,65 +570,159 @@ export default function Invoices() {
               ></button>
             </div>
             <div className="modal-body">
-              <form id="addUserGroupForm" action="#" method="POST">
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                  />
+              <div className="col">Customer</div>
+              <div className="col text-end add-btn pe-2">
+                <button
+                  className="btn edit-btn-theme btn-sm"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addCustomerModal"
+                >
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
+                  &nbsp;&nbsp;Add&nbsp;Customer&nbsp;
+                </button>
+              </div>
+              <div className="mb-5">
+                <select className="form-select form-select-mod">
+                  <option disabled value=""></option>
+                  <option value="1" selected>
+                    Customer 1
+                  </option>
+                  <option value="2">Customer 2</option>
+                  <option value="3">Customer 3</option>
+                </select>
+              </div>
+              <div className="col">Item</div>
+              <div className="col text-end add-btn pe-2">
+                <button
+                  className="btn edit-btn-theme btn-sm"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addItemToInvoice"
+                >
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
+                  &nbsp;&nbsp;Add&nbsp;Item&nbsp;to&nbsp;Invoice
+                </button>
+              </div>
+              <div className="table-wrapper">
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;ID
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              GRN Number
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item Description
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Unit Selling Price
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Quantity
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Total Item Price
+                            </div>
+                          </div>
+                        </th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>
+                          <div className="action-icons">
+                            <button
+                              type="submit"
+                              className="action-btn"
+                              title="Edit"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addItemToInvoice"
+                            >
+                              <i className="fa-sharp fa-solid fa-pen"></i>
+                            </button>
+                            <button
+                              type="submit"
+                              className="action-btn delete-btn"
+                              title="Delete"
+                              data-bs-toggle="modal"
+                              data-bs-target="#"
+                            >
+                              <i className="fa-sharp fa-solid fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>
+                          <div className="action-icons">
+                            <button
+                              type="submit"
+                              className="action-btn"
+                              title="Edit"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addItemToInvoice"
+                            >
+                              <i className="fa-sharp fa-solid fa-pen"></i>
+                            </button>
+                            <button
+                              type="submit"
+                              className="action-btn delete-btn"
+                              title="Delete"
+                              data-bs-toggle="modal"
+                              data-bs-target="#"
+                            >
+                              <i className="fa-sharp fa-solid fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    User Group
-                  </label>
-                  <select className="form-select form-select-mod">
-                    <option disabled value=""></option>
-                    <option value="1">ADMINISTRATOR</option>
-                    <option value="2">MANAGER</option>
-                    <option value="3">SALES REP</option>
-                  </select>
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Account Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                  />
-                  <div id="passwordDisclaimer" className="form-text">
-                    The account password can only be administratively set
-                    <strong>during account creation</strong>.
-                  </div>
-                </div>
-              </form>
+              </div>
+              <div className="row align-items-center justify-content-between my-5">
+                <div className="col">Total Price</div>
+                <div className="col-auto">0.00</div>
+              </div>
             </div>
             <div className="modal-footer">
               <div className="col text-end add-btn pe-2">
@@ -625,7 +732,7 @@ export default function Invoices() {
                   form="addUserGroupForm"
                 >
                   &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
-                  &nbsp;&nbsp;Add&nbsp;User&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;Add&nbsp;Invoice&nbsp;&nbsp;&nbsp;
                 </button>
               </div>
             </div>
@@ -646,7 +753,7 @@ export default function Invoices() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Edit</h4>
+                <h4 className="page-header fs-5">Invoices Management | Edit</h4>
               </div>
               <button
                 type="button"
@@ -662,13 +769,12 @@ export default function Invoices() {
                     htmlFor="userGroupDescription"
                     className="form-label fw-bold"
                   >
-                    Full Name
+                    Invoices Number
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control form-input-mod"
                     id="userGroupDescription"
-                    value="Lorem Ipsum"
                   />
                 </div>
                 <div className="mb-3">
@@ -676,13 +782,12 @@ export default function Invoices() {
                     htmlFor="userGroupDescription"
                     className="form-label fw-bold"
                   >
-                    Email
+                    Invoices Date
                   </label>
                   <input
                     type="text"
                     className="form-control form-input-mod"
                     id="userGroupDescription"
-                    value="email@email.com"
                   />
                 </div>
                 <div className="mb-3">
@@ -690,15 +795,28 @@ export default function Invoices() {
                     htmlFor="userGroupDescription"
                     className="form-label fw-bold"
                   >
-                    User Group
+                    Customer
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-input-mod"
+                    id="userGroupDescription"
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    Status
                   </label>
                   <select className="form-select form-select-mod">
                     <option disabled value=""></option>
                     <option value="1" selected>
-                      ADMINISTRATOR
+                      Status 1
                     </option>
-                    <option value="2">MANAGER</option>
-                    <option value="3">SALES REP</option>
+                    <option value="2">Status 2</option>
+                    <option value="3">Status 3</option>
                   </select>
                 </div>
               </form>
@@ -711,7 +829,153 @@ export default function Invoices() {
                   form="addUserGroupForm"
                 >
                   &nbsp;<i className="fa-sharp fa-solid fa-pen"></i>
-                  &nbsp;&nbsp;Edit&nbsp;User&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;Edit&nbsp;Record&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <!-- add Customer modal --> */}
+      <div
+        className="modal modal-adjuster fade"
+        id="addCustomerModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header align-items-start">
+              <div>
+                <h4 className="page-header">Add Customer</h4>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form id="addUserGroupForm" action="#" method="POST">
+                <div>
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    Customer Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-input-mod"
+                    id="userGroupDescription"
+                  />
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <div className="col text-end add-btn pe-2">
+                <button
+                  type="submit"
+                  className="btn edit-btn-theme btn-sm"
+                  form="addUserGroupForm"
+                >
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
+                  &nbsp;&nbsp;Add&nbsp;Customer&nbsp;
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <!-- add Item to Invoice modal --> */}
+      <div
+        className="modal modal-adjuster fade"
+        id="addItemToInvoice"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header align-items-start">
+              <div>
+                <h4 className="page-header">Add Item to Invoice</h4>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form id="addUserGroupForm" action="#" method="POST">
+                <div className="mb-3">
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    Item
+                  </label>
+                  <select className="form-select form-select-mod">
+                    <option disabled value=""></option>
+                    <option value="1" selected>
+                      Item 1
+                    </option>
+                    <option value="2">Item 2</option>
+                    <option value="3">Item 3</option>
+                  </select>
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    GRN
+                  </label>
+                  <select className="form-select form-select-mod">
+                    <option disabled value=""></option>
+                    <option value="1" selected>
+                      GRN 1
+                    </option>
+                    <option value="2">GRN 2</option>
+                    <option value="3">GRN 3</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control form-input-mod"
+                    id="userGroupDescription"
+                  />
+                </div>
+              </form>
+              <div className="row align-items-center justify-content-between my-5">
+                <div className="col">Total Item Price</div>
+                <div className="col-auto">0.00</div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <div className="col text-end add-btn pe-2">
+                <button
+                  type="submit"
+                  className="btn edit-btn-theme btn-sm"
+                  form="addUserGroupForm"
+                >
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
+                  &nbsp;&nbsp;Add&nbsp;Item&nbsp;to&nbsp;Invoice&nbsp;
                 </button>
               </div>
             </div>

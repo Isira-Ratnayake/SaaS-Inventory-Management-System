@@ -15,7 +15,7 @@ export default function GoodsReceivedNotes() {
       <div className="container">
         <div className="main-content">
           <div className="header">
-            <h1>User Management</h1>
+            <h1>Goods Received Notes Management</h1>
           </div>
           <div className="col text-end add-btn">
             <button
@@ -25,10 +25,29 @@ export default function GoodsReceivedNotes() {
               data-bs-target="#addUserModal"
             >
               &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
-              &nbsp;&nbsp;Add&nbsp;New&nbsp;User&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;Add&nbsp;GRN&nbsp;&nbsp;
             </button>
           </div>
           <div className="row justify-content-end mb-3">
+            <div className="col ms-3">
+              <div className="row">
+                <div className="col col-3">
+                  <div className="row align-items-center">
+                    <div className="col search-by-col-2">
+                      <select
+                        form="search-form"
+                        name=""
+                        className="form-select form-select-sm form-select-mod"
+                      >
+                        <option value="1">All</option>
+                        <option value="3">GRN Date</option>
+                        <option value="4">Status</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="col col-3">
               <div className="row align-items-center">
                 <div className="col search-by-col-1 text-end">
@@ -78,7 +97,7 @@ export default function GoodsReceivedNotes() {
                     <th>
                       <div className="row table-heading align-items-center">
                         <div className="col table-heading-title">
-                          User&nbsp;ID
+                          GRN&nbsp;Number
                         </div>
                         <div className="col sort-caret">
                           <button
@@ -96,7 +115,7 @@ export default function GoodsReceivedNotes() {
                     <th>
                       <div className="row table-heading align-items-center">
                         <div className="col table-heading-title">
-                          Full&nbsp;Name
+                          GRN&nbsp;Date
                         </div>
                         <div className="col sort-caret">
                           <button
@@ -113,25 +132,7 @@ export default function GoodsReceivedNotes() {
                     </th>
                     <th>
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
-                        <div className="col sort-caret">
-                          <button
-                            type="submit"
-                            form="search-form"
-                            name=""
-                            value=""
-                            className="sort-btn"
-                          >
-                            <i className="fa-sharp fa-solid fa-sort"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </th>
-                    <th>
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">
-                          User&nbsp;Group
-                        </div>
+                        <div className="col table-heading-title">Status</div>
                         <div className="col sort-caret">
                           <button
                             type="submit"
@@ -153,7 +154,6 @@ export default function GoodsReceivedNotes() {
                     <td>JUID-001</td>
                     <td>LOREM IPSUM</td>
                     <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -190,7 +190,6 @@ export default function GoodsReceivedNotes() {
                     <td>JUID-001</td>
                     <td>LOREM IPSUM</td>
                     <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -227,7 +226,6 @@ export default function GoodsReceivedNotes() {
                     <td>JUID-001</td>
                     <td>LOREM IPSUM</td>
                     <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -264,7 +262,6 @@ export default function GoodsReceivedNotes() {
                     <td>JUID-001</td>
                     <td>LOREM IPSUM</td>
                     <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -301,7 +298,6 @@ export default function GoodsReceivedNotes() {
                     <td>JUID-001</td>
                     <td>LOREM IPSUM</td>
                     <td>email@email.com</td>
-                    <td>ADMINISTRATOR</td>
                     <td>
                       <div className="action-icons">
                         <button
@@ -394,7 +390,9 @@ export default function GoodsReceivedNotes() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | View</h4>
+                <h4 className="page-header fs-5">
+                  Goods Received Notes Management | View
+                </h4>
               </div>
               <button
                 type="button"
@@ -409,16 +407,17 @@ export default function GoodsReceivedNotes() {
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">User ID</div>
+                        <div className="col table-heading-title">
+                          GRN Number
+                        </div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">UID-001</td>
                   </tr>
-
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Full Name</div>
+                        <div className="col table-heading-title">GRN Date</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">Lorem Ipsum</td>
@@ -426,23 +425,11 @@ export default function GoodsReceivedNotes() {
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
+                        <div className="col table-heading-title">Status</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">
                       email@email.com
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">
-                          User Group
-                        </div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">
-                      ADMINISTRATOR
                     </td>
                   </tr>
                 </tbody>
@@ -465,7 +452,9 @@ export default function GoodsReceivedNotes() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Delete</h4>
+                <h4 className="page-header fs-5">
+                  Goods Received Notes Management | Delete
+                </h4>
               </div>
               <button
                 type="button"
@@ -480,16 +469,17 @@ export default function GoodsReceivedNotes() {
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">User ID</div>
+                        <div className="col table-heading-title">
+                          GRN Number
+                        </div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">UID-001</td>
                   </tr>
-
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Full Name</div>
+                        <div className="col table-heading-title">GRN Date</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">Lorem Ipsum</td>
@@ -497,23 +487,11 @@ export default function GoodsReceivedNotes() {
                   <tr>
                     <th scope="row">
                       <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">Email</div>
+                        <div className="col table-heading-title">Status</div>
                       </div>
                     </th>
                     <td className="text-truncate align-middle">
                       email@email.com
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <div className="row table-heading align-items-center">
-                        <div className="col table-heading-title">
-                          User Group
-                        </div>
-                      </div>
-                    </th>
-                    <td className="text-truncate align-middle">
-                      ADMINISTRATOR
                     </td>
                   </tr>
                 </tbody>
@@ -527,7 +505,7 @@ export default function GoodsReceivedNotes() {
                 data-bs-target="#updatePrivilegesModal"
               >
                 &nbsp;<i className="fa-sharp fa-solid fa-trash"></i>
-                &nbsp;&nbsp;Delete&nbsp;User&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;Delete&nbsp;Record&nbsp;&nbsp;&nbsp;
               </button>
             </div>
           </div>
@@ -543,11 +521,11 @@ export default function GoodsReceivedNotes() {
         tabIndex="-1"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Add</h4>
+                <h4 className="page-header">Add GRN</h4>
               </div>
               <button
                 type="button"
@@ -557,65 +535,135 @@ export default function GoodsReceivedNotes() {
               ></button>
             </div>
             <div className="modal-body">
-              <form id="addUserGroupForm" action="#" method="POST">
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                  />
+              <div className="col">Items</div>
+              <div className="col text-end add-btn pe-2">
+                <button
+                  className="btn edit-btn-theme btn-sm"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addItemToGRNModal"
+                >
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
+                  &nbsp;&nbsp;Add&nbsp;Item&nbsp;to&nbsp;GRN&nbsp;
+                </button>
+              </div>
+              <div className="table-wrapper">
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Item&nbsp;Id
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">Item</div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Unit Selling
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Unit Cost
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Quantity
+                            </div>
+                          </div>
+                        </th>
+                        <th>
+                          <div className="row table-heading align-items-center">
+                            <div className="col table-heading-title">
+                              Total Item Cost
+                            </div>
+                          </div>
+                        </th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>
+                          <div className="action-icons">
+                            <button
+                              type="submit"
+                              className="action-btn"
+                              title="Edit"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addItemToGRNModal"
+                            >
+                              <i className="fa-sharp fa-solid fa-pen"></i>
+                            </button>
+                            <button
+                              type="submit"
+                              className="action-btn delete-btn"
+                              title="Delete"
+                              data-bs-toggle="modal"
+                              data-bs-target="#"
+                            >
+                              <i className="fa-sharp fa-solid fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>Test</td>
+                        <td>
+                          <div className="action-icons">
+                            <button
+                              type="submit"
+                              className="action-btn"
+                              title="Edit"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addItemToGRNModal"
+                            >
+                              <i className="fa-sharp fa-solid fa-pen"></i>
+                            </button>
+                            <button
+                              type="submit"
+                              className="action-btn delete-btn"
+                              title="Delete"
+                              data-bs-toggle="modal"
+                              data-bs-target="#"
+                            >
+                              <i className="fa-sharp fa-solid fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    User Group
-                  </label>
-                  <select className="form-select form-select-mod">
-                    <option disabled value=""></option>
-                    <option value="1">ADMINISTRATOR</option>
-                    <option value="2">MANAGER</option>
-                    <option value="3">SALES REP</option>
-                  </select>
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="userGroupDescription"
-                    className="form-label fw-bold"
-                  >
-                    Account Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control form-input-mod"
-                    id="userGroupDescription"
-                  />
-                  <div id="passwordDisclaimer" className="form-text">
-                    The account password can only be administratively set
-                    <strong>during account creation</strong>.
-                  </div>
-                </div>
-              </form>
+              </div>
+              <div className="row align-items-center justify-content-between my-5">
+                <div className="col">Total Cost</div>
+                <div className="col-auto">0.00</div>
+              </div>
             </div>
             <div className="modal-footer">
               <div className="col text-end add-btn pe-2">
@@ -625,7 +673,7 @@ export default function GoodsReceivedNotes() {
                   form="addUserGroupForm"
                 >
                   &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
-                  &nbsp;&nbsp;Add&nbsp;User&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;Add&nbsp;GRN&nbsp;&nbsp;&nbsp;
                 </button>
               </div>
             </div>
@@ -646,7 +694,9 @@ export default function GoodsReceivedNotes() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Users Management | Edit</h4>
+                <h4 className="page-header fs-5">
+                  Goods Received Notes Management | Edit
+                </h4>
               </div>
               <button
                 type="button"
@@ -662,7 +712,7 @@ export default function GoodsReceivedNotes() {
                     htmlFor="userGroupDescription"
                     className="form-label fw-bold"
                   >
-                    Full Name
+                    GRN Number
                   </label>
                   <input
                     type="text"
@@ -676,7 +726,7 @@ export default function GoodsReceivedNotes() {
                     htmlFor="userGroupDescription"
                     className="form-label fw-bold"
                   >
-                    Email
+                    GRN Date
                   </label>
                   <input
                     type="text"
@@ -690,7 +740,7 @@ export default function GoodsReceivedNotes() {
                     htmlFor="userGroupDescription"
                     className="form-label fw-bold"
                   >
-                    User Group
+                    Status
                   </label>
                   <select className="form-select form-select-mod">
                     <option disabled value=""></option>
@@ -711,7 +761,110 @@ export default function GoodsReceivedNotes() {
                   form="addUserGroupForm"
                 >
                   &nbsp;<i className="fa-sharp fa-solid fa-pen"></i>
-                  &nbsp;&nbsp;Edit&nbsp;User&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;Edit&nbsp;Record&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <!-- add Item to GRN modal --> */}
+      <div
+        className="modal modal-adjuster fade"
+        id="addItemToGRNModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header align-items-start">
+              <div>
+                <h4 className="page-header">Add Item to GRN</h4>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form id="addUserGroupForm" action="#" method="POST">
+                <div className="mb-3">
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    Item
+                  </label>
+                  <select className="form-select form-select-mod">
+                    <option disabled value=""></option>
+                    <option value="1" selected>
+                      Item 1
+                    </option>
+                    <option value="2">Item 2</option>
+                    <option value="3">Item 3</option>
+                  </select>
+                </div>
+                <div className="row mb-3">
+                  <div className="col">
+                    <label
+                      htmlFor="userGroupDescription"
+                      className="form-label fw-bold"
+                    >
+                      Unit Cost Price
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control form-input-mod"
+                      id="userGroupDescription"
+                    />
+                  </div>
+                  <div className="col">
+                    <label
+                      htmlFor="userGroupDescription"
+                      className="form-label fw-bold"
+                    >
+                      Unit Selling Price
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control form-input-mod"
+                      id="userGroupDescription"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="userGroupDescription"
+                    className="form-label fw-bold"
+                  >
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control form-input-mod"
+                    id="userGroupDescription"
+                  />
+                </div>
+              </form>
+              <div className="row align-items-center justify-content-between my-5">
+                <div className="col">Total Item Cost</div>
+                <div className="col-auto">0.00</div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <div className="col text-end add-btn pe-2">
+                <button
+                  type="submit"
+                  className="btn edit-btn-theme btn-sm"
+                  form="addUserGroupForm"
+                >
+                  &nbsp;<i className="fa-sharp fa-solid fa-circle-plus"></i>
+                  &nbsp;&nbsp;Add&nbsp;Item&nbsp;to&nbsp;GRN&nbsp;
                 </button>
               </div>
             </div>
