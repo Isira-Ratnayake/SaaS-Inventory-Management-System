@@ -152,7 +152,7 @@ export default function GoodsReceivedNotes() {
                 <tbody>
                   <tr>
                     <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
+                    <td>12-04-2024</td>
                     <td>email@email.com</td>
                     <td>
                       <div className="action-icons">
@@ -188,7 +188,7 @@ export default function GoodsReceivedNotes() {
                   </tr>
                   <tr>
                     <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
+                    <td>12-04-2024</td>
                     <td>email@email.com</td>
                     <td>
                       <div className="action-icons">
@@ -224,7 +224,7 @@ export default function GoodsReceivedNotes() {
                   </tr>
                   <tr>
                     <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
+                    <td>12-04-2024</td>
                     <td>email@email.com</td>
                     <td>
                       <div className="action-icons">
@@ -260,7 +260,7 @@ export default function GoodsReceivedNotes() {
                   </tr>
                   <tr>
                     <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
+                    <td>12-04-2024</td>
                     <td>email@email.com</td>
                     <td>
                       <div className="action-icons">
@@ -296,7 +296,7 @@ export default function GoodsReceivedNotes() {
                   </tr>
                   <tr>
                     <td>JUID-001</td>
-                    <td>LOREM IPSUM</td>
+                    <td>12-04-2024</td>
                     <td>email@email.com</td>
                     <td>
                       <div className="action-icons">
@@ -420,7 +420,7 @@ export default function GoodsReceivedNotes() {
                         <div className="col table-heading-title">GRN Date</div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
+                    <td className="text-truncate align-middle">12-04-2024</td>
                   </tr>
                   <tr>
                     <th scope="row">
@@ -482,7 +482,7 @@ export default function GoodsReceivedNotes() {
                         <div className="col table-heading-title">GRN Date</div>
                       </div>
                     </th>
-                    <td className="text-truncate align-middle">Lorem Ipsum</td>
+                    <td className="text-truncate align-middle">12-04-2024</td>
                   </tr>
                   <tr>
                     <th scope="row">
@@ -718,7 +718,7 @@ export default function GoodsReceivedNotes() {
                     type="text"
                     className="form-control form-input-mod"
                     id="userGroupDescription"
-                    value="Lorem Ipsum"
+                    value="12-04-2024"
                   />
                 </div>
                 <div className="mb-3">
