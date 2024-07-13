@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import Overview, {
-  loader as OverviewLoader,
-  action as OverviewAction,
-} from "./pages/Overview";
+import Login, {
+  loader as LoginLoader,
+  action as LoginAction,
+} from "./pages/Login";
 import Invoices, {
   loader as InvoicesLoader,
   action as InvoicesAction,
@@ -39,14 +39,20 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route element={<Layout />}>
-        <Route
+        {/* <Route
           index
           element={<Overview />}
           loader={OverviewLoader}
           action={OverviewAction}
+        /> */}
+        <Route
+          index
+          element={<Login />}
+          loader={LoginLoader}
+          action={LoginAction}
         />
         <Route
-          path="invoices"
+          path="/invoices"
           element={<Invoices />}
           loader={InvoicesLoader}
           action={InvoicesAction}

@@ -6,6 +6,7 @@ import "./assets/bootstrap/js/bootstrap.bundle.min.js";
 import "./assets/fontawesome/css/all.min.css";
 import "./assets/Remix-Icons/remixicon.css";
 import "./style.css";
+import "./style2.css";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
