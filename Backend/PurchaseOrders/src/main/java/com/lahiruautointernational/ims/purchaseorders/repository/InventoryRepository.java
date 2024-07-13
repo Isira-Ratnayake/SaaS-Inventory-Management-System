@@ -71,6 +71,30 @@ public class InventoryRepository {
         }
     }
 
+    public void cancelPo(int poNumber) {
+        try {
+            jdbc.execute("update po set is_canceled=true where po_number = ?;",
+                    (PreparedStatementCallback<Boolean>) preparedStatement -> {
+                        preparedStatement.setInt(1, poNumber);
+                        return preparedStatement.execute();
+                    } );
+        }
+        catch(DataAccessException e) {
+        }
+    }
+
+    public void confirmPo(int poNumber) {
+        try {
+            jdbc.execute("update po set is_fulfilled=true where po_number = ?;",
+                    (PreparedStatementCallback<Boolean>) preparedStatement -> {
+                        preparedStatement.setInt(1, poNumber);
+                        return preparedStatement.execute();
+                    } );
+        }
+        catch(DataAccessException e) {
+        }
+    }
+
     public BigDecimal getQuantityOnOrder(int itemId) {
         BigDecimal i = jdbc.queryForObject(
                 "call getQuantityOnOrder(?)",

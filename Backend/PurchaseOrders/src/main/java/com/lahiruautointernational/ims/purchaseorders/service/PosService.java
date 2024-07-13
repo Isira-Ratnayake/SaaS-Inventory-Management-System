@@ -85,4 +85,26 @@ public class PosService {
         );
     }
 
+    public FormSubmitResponse confirmPon(int poNumber) {
+        inventoryRepository.confirmPo(poNumber);
+        return new FormSubmitResponse(
+                new Message(
+                        true,
+                        "PO successfully confirmed."
+                ),
+                null
+        );
+    }
+
+    public FormSubmitResponse cancelPon(int poNumber) {
+        inventoryRepository.cancelPo(poNumber);
+        return new FormSubmitResponse(
+                new Message(
+                        true,
+                        "PO successfully canceled."
+                ),
+                null
+        );
+    }
+
 }

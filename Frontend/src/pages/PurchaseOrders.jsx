@@ -86,6 +86,20 @@ export async function action({ request }) {
     return null;
   }
 
+  if (formType === "cancelpo") {
+    const poNumber = formData.get("poNumber");
+    let response = await cancelPo(poNumber);
+
+    if (response !== null) {
+      response = {
+        ...response,
+        formType: formType,
+      };
+      return response;
+    }
+    return null;
+  }
+
   return null;
 }
 export default function PurchaseOrders() {
@@ -220,6 +234,14 @@ export default function PurchaseOrders() {
                   return [];
                 });
                 loadItemModalData(item.itemId);
+                const index = modal.items.indexOf(item);
+                setItemModal((prev) => {
+                  return {
+                    ...prev,
+                    index: index,
+                    orderQuantity: item.orderQuantity,
+                  };
+                });
               }}
             >
               <i className="fa-sharp fa-solid fa-pen"></i>
@@ -269,11 +291,11 @@ export default function PurchaseOrders() {
           {supplier.filter((s) => s.id === po.supplierId)[0]?.description}
         </td>
         <td>
-          {!po.cancelled && po.fullfilled ? (
+          {po.fullFilled ? (
             <span className="badge rounded-pill text-success-emphasis bg-success-subtle fs-custom">
               &nbsp;&nbsp; RECEIVED &nbsp;&nbsp;
             </span>
-          ) : !po.cancelled && !po.fullfilled ? (
+          ) : !po.canceled && !po.fullFilled ? (
             <span className="badge rounded-pill text-secondary-emphasis bg-secondary-subtle fs-custom">
               &nbsp;&nbsp; PENDING &nbsp;&nbsp;
             </span>
@@ -303,7 +325,7 @@ export default function PurchaseOrders() {
               title="Confirm"
               data-bs-toggle="modal"
               data-bs-target="#editUserModal"
-              disabled={po.canceled || po.fullfilled}
+              disabled={po.canceled || po.fullFilled}
               onClick={() => {
                 loadModalData(po.poNumber);
               }}
@@ -316,7 +338,7 @@ export default function PurchaseOrders() {
               title="Delete"
               data-bs-toggle="modal"
               data-bs-target="#deleteUserModal"
-              disabled={po.canceled || po.fullfilled}
+              disabled={po.canceled || po.fullFilled}
               onClick={() => {
                 loadModalData(po.poNumber);
               }}
@@ -340,7 +362,6 @@ export default function PurchaseOrders() {
         itemId: itemDetails.itemId,
         itemName: itemDetails.itemName,
         supplier: itemDetails.supplier,
-        orderQuantity: itemDetails.orderQuantity,
         stockOnHand: itemDetails.stockOnHand,
         maxQuantity: itemDetails.maxQuantity,
         safetyStock: itemDetails.safetyStock,
@@ -379,6 +400,21 @@ export default function PurchaseOrders() {
         fullfilled: po.fullfilled,
       };
     });
+  }
+
+  function dataGridOffset(dataGrid) {
+    for (let i = poDtos.length; i < 5; i++) {
+      dataGrid.push(
+        <tr key={i}>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      );
+    }
+    return dataGrid;
   }
 
   return (
@@ -512,7 +548,7 @@ export default function PurchaseOrders() {
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>{itemGrid}</tbody>
+                <tbody>{dataGridOffset(itemGrid)}</tbody>
               </table>
             </div>
           </div>
@@ -745,9 +781,9 @@ export default function PurchaseOrders() {
                       </div>
                     </th>
                     <td>
-                      {!modal.canceled && modal.fullfilled
+                      {modal.fullFilled
                         ? "RECEIVED"
-                        : !modal.canceled && !modal.fullfilled
+                        : !modal.canceled && !modal.fullFilled
                         ? "PENDING"
                         : "CANCELED"}
                     </td>
@@ -1098,10 +1134,9 @@ export default function PurchaseOrders() {
                   />
                 </Form>
                 <button
-                  id="confirmpo"
+                  form="confirmpo"
                   type="submit"
                   className="btn edit-btn-theme btn-sm"
-                  form="addUserGroupForm"
                 >
                   &nbsp;<i className="fa-sharp fa-solid fa-circle-check"></i>
                   &nbsp;&nbsp;Confirm&nbsp;Purchase&nbsp;Order&nbsp;&nbsp;&nbsp;
@@ -1342,7 +1377,7 @@ export default function PurchaseOrders() {
           <div className="modal-content">
             <div className="modal-header align-items-start">
               <div>
-                <h4 className="page-header">Add Item to PO</h4>
+                <h4 className="page-header">Edit PO Item</h4>
               </div>
               <button
                 type="button"
@@ -1537,8 +1572,8 @@ export default function PurchaseOrders() {
                     clearItemModalData();
                   }}
                 >
-                  &nbsp;<i className="fa-sharp fa-solid fa-plus"></i>
-                  &nbsp;&nbsp;Add&nbsp;Item&nbsp;to&nbsp;PO&nbsp;&nbsp;&nbsp;
+                  &nbsp;<i className="fa-sharp fa-solid fa-pen"></i>
+                  &nbsp;&nbsp;Edit&nbsp;PO&nbsp;Item&nbsp;&nbsp;&nbsp;
                 </button>
               </div>
             </div>

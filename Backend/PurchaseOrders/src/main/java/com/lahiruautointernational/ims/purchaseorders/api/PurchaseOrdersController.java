@@ -73,4 +73,31 @@ public class PurchaseOrdersController {
 
     }
 
+    @PostMapping("confirm-po")
+    public ResponseEntity<FormSubmitResponse> confirmPon(
+            @RequestParam("poNumber") String poNumber
+    ) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return new ResponseEntity<>(posService.confirmPon(Integer.parseInt(poNumber)), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @PostMapping("cancel-po")
+    public ResponseEntity<FormSubmitResponse> cancelPon(
+            @RequestParam("poNumber") String poNumber
+    ) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return new ResponseEntity<>(posService.cancelPon(Integer.parseInt(poNumber)), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
 }
